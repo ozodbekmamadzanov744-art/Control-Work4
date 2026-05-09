@@ -3,10 +3,11 @@ import java.util.*;
 public class Menu {
     private final Scanner scanner;
     private final List<Cat> cats;
-    private final Printable table;
+    private final CatTable table;
     private final CatInput catInput;
     private final CatSelector catSelector;
     private final NextDayAction nextDayAction;
+    private final Set<Cat> usedCats = new HashSet<>();
 
     private final List<Action> actions = Arrays.asList(
             new FeedAction(),
@@ -25,6 +26,7 @@ public class Menu {
 
     public void run() {
         while (true) {
+            table.setUsedCats(usedCats);
             table.print();
             printActions();
 
@@ -38,6 +40,7 @@ public class Menu {
 
             if (choice.equals("n")) {
                 nextDayAction.apply(cats);
+                usedCats.clear();
                 System.out.println();
                 continue;
             }
@@ -55,13 +58,19 @@ public class Menu {
                 continue;
             }
 
-            Cat cat = catSelector.select(cats);
+            Cat cat = catSelector.select(table.getSortedCats());
             if (cat == null) {
                 System.out.println("Ошибка: кот не найден!\n");
                 continue;
             }
 
+            if (usedCats.contains(cat)) {
+                System.out.println("Вы уже выполняли действие с этим котом сегодня!\n");
+                continue;
+            }
+
             actions.get(actionIndex).apply(cat);
+            usedCats.add(cat);
             System.out.println();
         }
     }
