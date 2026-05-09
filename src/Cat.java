@@ -30,4 +30,16 @@ public class Cat {
     public void setHealth(int health)   { this.health = clamp(health); }
     public void setMood(int mood)       { this.mood = clamp(mood); }
     public void setSatiety(int satiety) { this.satiety = clamp(satiety); }
+
+    public int getIncreaseStep() {
+        if (age <= 5)  return 7;
+        if (age <= 10) return 5;
+        return 4;
+    }
+
+    public int getDecreaseStep() {
+        if (age <= 5)  return 3;
+        if (age <= 10) return 5;
+        return 6;
+    }
 }
