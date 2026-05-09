@@ -1,9 +1,9 @@
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.*;
 
-public class CatTable implements Printable{
+public class CatTable implements Printable {
     private final List<Cat> cats;
+    private List<Cat> sortedCats;
 
     public CatTable(List<Cat> cats) {
         this.cats = cats;
@@ -17,16 +17,21 @@ public class CatTable implements Printable{
                 "имя", "возраст", "здоровье", "настроение", "сытость", "средний уровень");
         System.out.println(line);
 
-        List<Cat> sorted = cats.stream()
+        sortedCats = cats.stream()
                 .sorted(Comparator.comparingDouble(Cat::getAverageLevel).reversed())
                 .collect(Collectors.toList());
 
-        for (int i = 0; i < sorted.size(); i++) {
-            Cat c = sorted.get(i);
+        for (int i = 0; i < sortedCats.size(); i++) {
+            Cat c = sortedCats.get(i);
             System.out.printf(" %d | %-6s | %-7d | %-8d | %-10d | %-7d | %-14.0f |%n",
                     i + 1, c.getName(), c.getAge(), c.getHealth(),
                     c.getMood(), c.getSatiety(), c.getAverageLevel());
         }
         System.out.println(line);
+    }
+
+
+    public List<Cat> getSortedCats() {
+        return sortedCats != null ? sortedCats : cats;
     }
 }
