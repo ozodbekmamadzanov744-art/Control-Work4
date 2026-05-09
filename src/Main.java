@@ -1,10 +1,9 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
 
+        Scanner sc = new Scanner(System.in);
 
         List<Cat> cats = new ArrayList<>(Arrays.asList(
                 new Cat("Peach",  11, 78, 86, 50),
@@ -14,6 +13,15 @@ public class Main {
 
         Printable table = new CatTable(cats);
         table.print();
+
+        CatInput catInput = new CatInput(sc);
+        Cat newCat = catInput.createCat();
+        cats.add(newCat);
+
+        System.out.println("\nКот добавлен! Обновлённая таблица:");
+        table.print();
+
+
 
 
 
